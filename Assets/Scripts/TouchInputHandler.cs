@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using BalloonTap;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -38,38 +37,30 @@ public class TouchInputHandler : MonoBehaviour
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
+                
+                Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
-                if (touch.phase == TouchPhase.Began)
+                RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero, Mathf.Infinity, _layerMask);
+
+                if (hit.collider != null)
                 {
-                    if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                    if (hit.collider.TryGetComponent(out Balloon balloon))
                     {
-                        yield return null;
-                        continue;
+                        BalloonClicked?.Invoke(balloon);
                     }
-                    
-                    Vector2 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
-                    
-                    RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector2.zero, Mathf.Infinity);
-
-                    if (hit.collider != null)
+                    else if (hit.collider.TryGetComponent(out Cloud cloud))
                     {
-                        if (hit.collider.TryGetComponent(out Balloon balloon))
-                        {
-                            BalloonClicked?.Invoke(balloon);
-                        }
-                        else if(hit.collider.TryGetComponent(out Cloud cloud))
-                        {
-                            CloudClicked?.Invoke(cloud);
-                        }
-                    }
-                    else
-                    {
-                        /*Missed?.Invoke();
-                        var gameObject = Instantiate(_incorrectTouchObject);
-                        gameObject.transform.position = touchPosition;
-                        Destroy(gameObject, 2);*/
+                        CloudClicked?.Invoke(cloud);
                     }
                 }
+                else
+                {
+                    Debug.Log("null");
+                }
+            }
+            else
+            {
+                Debug.Log("no imput");
             }
 
             yield return null;

@@ -7,7 +7,11 @@ namespace BalloonTap
     {
         [SerializeField] private float _minX;
         [SerializeField] private float _maxX;
+        [SerializeField] private float _minY;
+        [SerializeField] private float _maxY;
+        
         private float _yPosition;
+        
 
         private void Awake()
         {
@@ -19,6 +23,16 @@ namespace BalloonTap
             float randomX = Random.Range(_minX, _maxX);
         
             return new Vector2(randomX, _yPosition);
+        }
+
+        public float GetRandomXPosition()
+        {
+            return Random.Range(_minX, _maxX);
+        }
+        
+        public float GetRandomYPosition()
+        {
+            return Random.Range(_minY, _maxY);
         }
     }
 }

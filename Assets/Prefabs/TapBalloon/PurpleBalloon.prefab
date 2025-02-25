@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1352671772387750399}
   - component: {fileID: 9130427249099284059}
   - component: {fileID: 132923845984527621}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PurpleBalloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

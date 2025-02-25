@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 378172727758841107}
   - component: {fileID: 2340045203387586707}
   - component: {fileID: 1968171986586194298}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RedBalloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

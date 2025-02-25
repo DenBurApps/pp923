@@ -8,4 +8,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InitializeScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/ColorSwitchScene.unity
+    guid: 37c3c98be009ed241a1c1326fef002e2
+  - enabled: 1
+    path: Assets/Scenes/LightningReflexScene.unity
+    guid: 1d860477b885bb84ca1f712b3190a821
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 5cf0a19897babaa4cab92fd53e285c3c
+  - enabled: 1
+    path: Assets/Scenes/PathTrackerScene.unity
+    guid: 2d289dbbe2b3b874fa0aff554ee5df37
+  - enabled: 1
+    path: Assets/Scenes/TapBalloonScene.unity
+    guid: 0356004d3e8c14b40905f0aadc19d43e
+  - enabled: 1
+    path: Assets/Scenes/TestScene.unity
+    guid: 10739b2c06397aa459d4934697a3f3a1
   m_configObjects: {}

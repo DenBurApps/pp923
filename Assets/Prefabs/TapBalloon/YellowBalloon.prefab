@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 677746464326261853}
   - component: {fileID: 4181508802161697588}
   - component: {fileID: 7918163756121099630}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: YellowBalloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,9 +120,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06, y: 0.73}
+  m_Offset: {x: -0.06, y: 3.33}
   serializedVersion: 2
-  m_Radius: 0.9
+  m_Radius: 3.92
 --- !u!95 &677746464326261853
 Animator:
   serializedVersion: 5

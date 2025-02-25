@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c96c75a665c29347a6c0fbff4647848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cloudType: 1
+  _cloudType: 0
   _movingComponent: {fileID: 6883257632437069318}
 --- !u!114 &6883257632437069318
 MonoBehaviour:

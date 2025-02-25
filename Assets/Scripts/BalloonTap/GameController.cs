@@ -27,7 +27,7 @@ namespace BalloonTap
         private void OnEnable()
         {
             _rulesScreen.StartClicked += StartNewGame;
-            
+
             _pauseButton.onClick.AddListener(PauseGame);
 
             _pauseScreen.RestartClicked += StartNewGame;
@@ -42,7 +42,7 @@ namespace BalloonTap
         private void OnDisable()
         {
             _rulesScreen.StartClicked -= StartNewGame;
-            
+
             _pauseButton.onClick.RemoveListener(PauseGame);
 
             _pauseScreen.RestartClicked -= StartNewGame;
@@ -98,16 +98,16 @@ namespace BalloonTap
                 IncreaseScore(balloon);
                 return;
             }
-            
+
             DecreaseLife(balloon);
         }
 
         private void CloudCatched(Cloud cloud)
         {
-            if(cloud.CloudType == CloudType.Bonus)
+            if (cloud.CloudType == CloudType.Bonus)
                 IncreaseLife(cloud);
         }
-        
+
         private void IncreaseScore(Balloon balloon)
         {
             _score += 10;
@@ -120,12 +120,12 @@ namespace BalloonTap
         {
             _lives--;
             UpdateLivesImages();
-            
+
             var gameObject = Instantiate(_blowImage);
             gameObject.transform.position = balloon.transform.position;
             Destroy(gameObject, 2);
             _balloonSpawner.ReturnToPool(balloon);
-            
+
             if (_lives <= 0)
             {
                 ProcessGameEnd();
@@ -137,19 +137,26 @@ namespace BalloonTap
             _lives++;
             if (_lives > 3)
                 _lives = 3;
-            
+
             UpdateLivesImages();
             _cloudSpawner.ReturnToPool(cloud);
         }
 
         private void ProcessGameEnd()
         {
+            var score = RecordHolder.GetRecordByType(_gameType);
+
+            if (_score > score)
+                RecordHolder.AddNewRecord(_gameType, _score);
+
             _balloonSpawner.ReturnAllObjectsToPool();
             _cloudSpawner.ReturnAllObjectsToPool();
+            _balloonSpawner.StopSpawn();
+            _cloudSpawner.StopSpawn();
             _touchInputHandler.StopDetectingTouch();
             _failScreen.EnableScreen(_score, _gameType);
         }
-        
+
         private void UpdateUIElements()
         {
             _scoreText.text = _score.ToString();
@@ -157,17 +164,10 @@ namespace BalloonTap
 
         private void UpdateLivesImages()
         {
-            foreach (var image in _livesImages)
+            for (int i = 0; i < _livesImages.Length; i++)
             {
-                image.gameObject.SetActive(false);
-            }
-
-            for (int i = 0; i < _lives; i++)
-            {
-                if(i < _livesImages.Length)
-                    _livesImages[i].gameObject.SetActive(true);
+                _livesImages[i].gameObject.SetActive(i < _lives);
             }
         }
-        
     }
 }

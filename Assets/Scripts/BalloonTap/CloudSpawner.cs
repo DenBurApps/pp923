@@ -12,6 +12,7 @@ namespace BalloonTap
         [SerializeField] private SpawnArea _spawnArea;
         [SerializeField] private int _poolCapacity;
         [SerializeField] private float _objMovingSpeed;
+        [SerializeField] private int _spawnedCount;
 
         private List<Cloud> _spawnedObjects = new List<Cloud>();
         private IEnumerator _spawnCoroutine;
@@ -50,12 +51,56 @@ namespace BalloonTap
 
             while (true)
             {
-                Spawn();
+                List<Vector3> spawnPositions = GenerateSpawnPositions();
+
+                for (int i = 0; i < spawnPositions.Count; i++)
+                {
+                    Spawn(spawnPositions[i]);
+                }
+
                 yield return interval;
             }
         }
 
-        private void Spawn()
+        private List<Vector3> GenerateSpawnPositions()
+        {
+            const float minHorizontalSpacing = 1.5f;
+            const float minVerticalDifference = 0.5f;
+
+            List<Vector3> positions = new List<Vector3>();
+
+            for (int i = 0; i < _spawnedCount; i++)
+            {
+                Vector3 spawnPosition;
+                bool validPosition;
+
+                do
+                {
+                    validPosition = true;
+
+                    float randomX = _spawnArea.GetRandomXPosition();
+                    float randomY = _spawnArea.GetRandomYPosition();
+                    spawnPosition = new Vector3(randomX, randomY, 0);
+
+                    foreach (var existingPosition in positions)
+                    {
+                        if (Mathf.Abs(existingPosition.x - spawnPosition.x) < minHorizontalSpacing ||
+                            Mathf.Abs(existingPosition.y - spawnPosition.y) < minVerticalDifference)
+                        {
+                            validPosition = false;
+                            break;
+                        }
+                    }
+                } while (!validPosition);
+
+                positions.Add(spawnPosition);
+            }
+
+            return positions;
+        }
+
+
+        private void Spawn(Vector3 spawnPosition)
         {
             if (ActiveObjects.Count >= _poolCapacity)
                 return;
@@ -65,13 +110,14 @@ namespace BalloonTap
 
             if (TryGetObject(out Cloud cloud, prefabToSpawn))
             {
-                cloud.transform.position = _spawnArea.GetRandomXPositionToSpawn();
+                cloud.transform.position = spawnPosition;
                 _spawnedObjects.Add(cloud);
+
                 cloud.MovingComponent.EnableMovement(Vector3.down);
                 cloud.MovingComponent.SetSpeed(_objMovingSpeed);
             }
         }
-
+        
         public void ReturnToPool(Cloud cloud)
         {
             if (cloud == null)
